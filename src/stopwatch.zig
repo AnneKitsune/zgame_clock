@@ -23,7 +23,7 @@ pub const Stopwatch = struct {
     spans: std.ArrayList(TimeSpan),
 
     pub fn init(alloc: *std.mem.Allocator) @This() {
-        return @This() {
+        return @This(){
             .spans = std.ArrayList(TimeSpan).init(alloc),
         };
     }
@@ -40,7 +40,7 @@ pub const Stopwatch = struct {
     pub fn start(self: *@This(), current_time: u128) !?TimeSpan {
         // if no split or last split is stopped, create new one.
         const ret = try self.stop(current_time);
-        try self.spans.append(TimeSpan {
+        try self.spans.append(TimeSpan{
             .start = current_time,
             .stop = null,
         });
@@ -51,8 +51,8 @@ pub const Stopwatch = struct {
     pub fn stop(self: *@This(), current_time: u128) !?TimeSpan {
         var ret: ?TimeSpan = null;
         if (self.is_running() and self.spans.items.len > 0) {
-            self.spans.items[self.spans.items.len-1].stop = current_time;
-            ret = self.spans.items[self.spans.items.len-1];
+            self.spans.items[self.spans.items.len - 1].stop = current_time;
+            ret = self.spans.items[self.spans.items.len - 1];
         }
         return ret;
     }
@@ -61,7 +61,7 @@ pub const Stopwatch = struct {
     pub fn is_running(self: *const @This()) bool {
         // if no spans or last span has an end, we are not running.
         // equiv: if we have splits and the last one has no stop
-        return self.spans.items.len > 0 and self.spans.items[self.spans.items.len-1].stop == null;
+        return self.spans.items.len > 0 and self.spans.items[self.spans.items.len - 1].stop == null;
     }
 
     /// Returns the total elapsed time accumulated inside of this stopwatch.
@@ -87,7 +87,7 @@ test "Repeated stops" {
     }
     _ = try sw.stop(0);
     try std.testing.expectEqual(sw.spans.items.len, 10000);
-    try std.testing.expect(sw.spans.items[sw.spans.items.len-1].stop != null);
+    try std.testing.expect(sw.spans.items[sw.spans.items.len - 1].stop != null);
 }
 
 test "Elapsed none" {
@@ -171,4 +171,3 @@ test "reset" {
     _ = try sw.stop(TEST_DELAY + 5);
     try std.testing.expectEqual(sw.elapsed(), TEST_DELAY);
 }
-

@@ -50,8 +50,6 @@ pub const Time = struct {
     }
 };
 
-
-
 fn approx_zero(v: u64) bool {
     //return v >= -0.000001 and v <= 0.000001;
     return v == 0;
@@ -120,9 +118,7 @@ test "All getters" {
     try std.testing.expect(approx_zero(time.delta_time - step * 2));
     try std.testing.expect(approx_zero(time.delta_real_time - step));
     try std.testing.expect(approx_zero(time.absolute_time - step * 4));
-    try std.testing.expect(approx_zero(
-        time.absolute_real_time - step * 2
-    ));
+    try std.testing.expect(approx_zero(time.absolute_real_time - step * 2));
     try std.testing.expectEqual(time.frame_number, 2);
     try std.testing.expectEqual(time.time_scale, 2.0);
     try std.testing.expectEqual(time.fixed_time, std.time.ns_per_s / 120);
