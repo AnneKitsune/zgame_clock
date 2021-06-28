@@ -9,9 +9,12 @@ pub fn build(b: *std.build.Builder) void {
     lib.setBuildMode(mode);
     lib.install();
 
-    var main_tests = b.addTest("src/main.zig");
-    main_tests.setBuildMode(mode);
+    var t1 = b.addTest("src/time.zig");
+    t1.setBuildMode(mode);
+    var t2 = b.addTest("src/stopwatch.zig");
+    t2.setBuildMode(mode);
 
     const test_step = b.step("test", "Run library tests");
-    test_step.dependOn(&main_tests.step);
+    test_step.dependOn(&t1.step);
+    test_step.dependOn(&t2.step);
 }
